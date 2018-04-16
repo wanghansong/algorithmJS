@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索树与双向链表</title>
+</head>
+<body>
+    
+    
+    <script>
+        /*思路：把根节点与左子树的中序遍历最后一个节点连接起来，与右子树中序遍历的第一个节点连接起来。
+        */
+        function TreeNode(x){
+            this.val=x;
+            this.left=null;
+            this.right=null;
+        }
+        
+        function Convert(pRootOfTree)
+        {
+            if(pRootOfTree==null){
+                return null;
+            }
+            var head;
+            var lastNode=null;
+            head=convertNode(pRootOfTree,lastNode);
+            while(head && head.left){
+                  head=head.left;
+            }
+            return head;
+        }
+        //构造双向链表，用中序遍历，先访问左子树，再访问根节点，然后访问右子树，用lastNode代表已经访问过的节点
+        function convertNode(root,lastNode){
+            //lastNode表示前序遍历上一个访问的节点
+            if(root==null) return;
+            if(root.left){//遍历root左子树
+                lastNode=convertNode(root.left,lastNode);
+            }
+            
+            //将root与它的左子树双向连接起来
+            root.left=lastNode;
+            if(lastNode){
+                lastNode.right=root;
+            }
+            
+            lastNode=root;//访问根节点
+            
+            if(root.right){
+                lastNode=convertNode(root.right,lastNode);
+            }
+            
+            return lastNode;
+        }
+        /*==================================================*/
+    </script>
+    
+</body>
+</html>

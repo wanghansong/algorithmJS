@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>最小的K个数</title>
+</head>
+<body>
+<p>
+    
+    题目描述
+输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+</p>
+<script>
+/*
+* 解法1:先排序，再取出前k个
+*/
+/*function GetLeastNumbers_Solution(input, k)
+{
+    if(k>input.length){
+        return "";
+    }
+    input.sort(function(a,b){
+        return a-b;
+    });
+    var result=[];
+    for(var i=0;i<k;i++){
+        result.push(input[i]);
+    }
+    return result;
+}*/
+    
+/*
+* 解法2：用快排，找到基数最后放在第k个位置时候就停止快排，这样第k个位置开始之前的就是最小k个数
+
+挖坑填数,即一次快排
+    1.i=L;j=R;基准数选择X=arr[i]挖一个坑
+    2.j-- 从后往前找到比X小的数填到坑arr[i]中，此时多出了一个坑arr[j]
+    3.i++ 从前往后找到比X大的一个数填到arr[j]坑中
+    4.重复2，3步骤知道i==j，将X基准数填入arr[i]中,返回此时基准数所在的位置index
+*/
+function ajustArray(arr,l,r){
+    var X=arr[l];
+    var i=l,j=r;
+    while(i<j){
+        //从后往前找比基数X小数，填到坑i处，且产生坑j
+        while(i<j && arr[j]>=X){
+            j--;
+        }
+        if(i<j){
+            arr[i]=arr[j];
+            i++;
+        }
+        
+        //从前往后找比X大的数，填到坑j处
+        while(i<j && arr[i]<X){
+            i--;
+        }
+        if(i<j){
+            arr[j]=arr[i];
+            j--;
+        }
+    }
+    
+    //此时i==j，将X基准数填入arr[i]中，返回此时基准数所在的位置index
+    arr[i]=X;
+    return i;
+}
+    
+function GetLeastNumbers_Solution(arr, k){
+    var l=0;
+    var r=arr.length-1;
+    var result=[];
+    var index=ajustArray(arr,l,r);
+    
+    while(index!=k-1 && l<r){
+        if(index<k-1){
+            l=index+1;
+            index=ajustArray(arr,l,r);
+        }else{
+            r=index-1;
+            index=ajustArray(arr,l,r);
+        }
+    }
+    //此时index在数组k位置上,arr[k]以前都是比它小的
+    for(var i=0;i<k;i++){
+        result.push(arr[i]);
+    }
+    return result;
+}
+
+var arr=[4,5,1,6,2,7,3,8];
+var res=GetLeastNumbers_Solution(arr,4);
+console.log(arr);
+    
+</script>
+</body>
+</html>

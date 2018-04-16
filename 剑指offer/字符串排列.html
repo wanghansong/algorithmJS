@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符串排列</title>
+</head>
+<body>
+
+<div>
+    
+       <h3>题目描述</h3>
+     <p>
+        输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。</p>
+    <h3>输入描述:</h3>
+    <p>
+        输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
+    </p>
+</div>
+
+
+
+<script>
+/*思路：n个元素的全排列=一个元素作为前缀+(n-1)个元素的全排列
+*/
+function Permutation(str)
+{
+    // write code here
+    var result=[];
+    if(str.length<=0){
+        return [];
+    }
+    var sortTemp='';
+    var arr = str.split('');
+    result=sortString(arr,sortTemp,[]);
+    return result
+
+}
+
+/*
+* arr是这个字符串拆分成的数组
+* sortTemp是一中排列的字符串
+* result是储存所有排列的一个数组
+*/
+function sortString(arr,sortTemp,result){
+    if(arr.length==0){//字母到最后一个了
+        result.push(sortTemp)
+    }else{
+        var isRepeat={};
+        for(var i=0;i<arr.length;i++){//这层循环是遍历第一个位置的可能元素
+            if(!isRepeat[arr[i]]){
+                var temp=arr.splice(i,1)[0];//取出第一个字符,并把它从数组中删除
+                sortTemp+=temp;
+                sortString(arr,sortTemp,result);
+                arr.splice(i,0,temp);//把删除的又加回数组
+                sortTemp=sortTemp.slice(0,sortTemp.length-1)//清空
+                isRepeat[temp]=true;
+            }
+        }
+    }
+    return result;
+}
+
+    console.log(Permutation('abc'));
+</script>
+</body>
+</html>
