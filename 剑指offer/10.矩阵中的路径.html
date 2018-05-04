@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第10题：矩阵中的路径</title>
+</head>
+<body>
+
+<script>
+/* 题目描述
+    请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如 a b c e s f c s a d e e 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+*/
+/**
+ * @Author   wangHansong
+ * @DateTime 2018-04-28
+ * @功能	回溯法
+ * @param   matrix [输入是一个一维数组，实际想表示的是一个二维数组，需要手动通过rows和cols界定行列]
+ * @param   rows   [行数]
+ * @param   cols   [列数]
+ * @param   path   [需要查找的字符数组]
+ * @return  [description]
+ */
+var test=['a','b','t','g','c','f','c','s','j','d','e','h'];
+console.log(hasPath(test,3,4,['b','f','c','e']));
+function hasPath(matrix,rows,cols,path){
+	if(matrix.length<=0){
+		return false;
+	}
+    var visitedArr=[];
+
+    for(var i=0;i<rows;i++){
+    	visitedArr[i]=new Array();
+    	for (var j = 0; j<cols; j++) {
+    		visitedArr[i][j]=false;
+    	}
+    }
+    for(var i=0;i<rows;i++){
+    	for(var j=0;j<cols;j++){
+    		if(pathConstruct(matrix, rows, cols, i, j, path, 0, visitedArr)){
+    			return true;
+    		}
+    	}
+    }
+    return false;
+}
+
+/**
+ * @Author   wangHansong
+ * @DateTime 2018-04-28
+ * @功能	构建以(row,col)为起点的路径，判断路径是否合格
+ * @param    {[type]}    row        [起点横坐标]
+ * @param    {[type]}    col        [起点纵坐标]
+ * @param    {[type]}    pathIndex  [现在路径长度]
+ * @param    {[type]}    visitedArr [二维数组，标记已访问的元素]
+ * @return   {[type]}               [路径是否合格]
+ * 思路：
+ * 		if  (row,col)值==path[pathIndex]值
+ * 			标记(row,col)已访问
+ * 			if 已经找到path最后一个字符串了
+ * 				返回true
+ * 			else 向(row,col)的上下左右去找path[pathIndex+1]的值（递归）
+ * 				 if 该路径路径中某个节点没有和path匹配上
+ * 				 	(row,col)取消已访问标记，退回到pathIndex-1字符重新找其他路径
+ */
+function pathConstruct(matrix,rows,cols,row,col,path,pathIndex,visitedArr){
+	var isPath=false;
+	if(matrix[row*cols+col]==path[pathIndex] && visitedArr[row][col] == false && row<rows && col<cols && row>=0 && col>=0){
+		visitedArr[row][col]=true;
+		if(pathIndex == path.length-1){ //已经匹配到了path的最后一个，成功找到
+			isPath=true;
+		}else{
+		    isPath=pathConstruct(matrix, rows, cols, row-1, col, path, pathIndex+1, visitedArr)||pathConstruct(matrix, rows, cols, row+1, col, path, pathIndex+1, visitedArr)||
+				pathConstruct(matrix, rows, cols, row, col-1, path, pathIndex+1, visitedArr) ||
+				pathConstruct(matrix, rows, cols, row, col+1, path, pathIndex+1, visitedArr);
+
+				if(!isPath){
+					visitedArr[row][col]=false;
+				}
+		}
+	}
+	return isPath;
+}
+</script>
+   
+</body>
+</html>

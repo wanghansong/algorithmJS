@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>第12题：剪绳子(动态规划、贪婪算法)</title>
+</head>
+<body>
+<p>
+题目：
+给你一段长度为n的绳子，请把绳子剪成若干段，使得所有段长度乘积最大
+</p>
+
+<script type="text/javascript">
+	/**
+	 * @Author   wangHansong
+	 * @DateTime 2018-05-04
+	 * @功能 【动态规划】自下向上解决问题,f[i]表示绳子长度为i时最大乘积
+	 * @param    n [绳子长度]
+	 */
+	function maxProduct_dynamic(n){
+		if(n<2){ //必须要切一刀
+			return 0;
+		}else if(n==2){
+			return 1;
+		}else if(n==3){
+			return 2;
+		}
+
+		let f=[];
+		f[0]=0;
+		f[1]=1;
+		f[2]=2;//不切最大
+		f[3]=3;//不切最大
+
+		let tmp,max;
+		for(let i=4;i<=n;i++){
+			max=0;
+			for(let j=1;j<=parseInt(i/2);j++){
+				tmp=f[j]*f[i-j];
+				if(tmp>max){
+					max=tmp;
+				}
+			}
+			f[i]=max;
+		}
+		return f[n];
+	}
+
+/**
+ * 感觉贪婪算法解这道题不具代表性，不写了
+ */
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第2题：二维数组中的查找</title>
+</head>
+<body>
+<script>
+ /*   题目描述
+        在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+*/
+/*思路：
+    因为矩阵的特殊性，所以先从第一列最后一行开始比较，小于则向上查找，大于则向后查找 
+*/ 
+function Find(target, array)
+{
+    var row=array.length;
+    var col=array[0].length;
+    for(var i=row-1,j=0;i>=0&&j<col;){
+        if(target>array[i][j]){
+            j++;  //向右找
+        }else if(target<array[i][j]){
+       		 i--;  //向上找
+        }else{
+        	return true;
+        }
+     }
+}
+</script>
+</body>
+</html>
