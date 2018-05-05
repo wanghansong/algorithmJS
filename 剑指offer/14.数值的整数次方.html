@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第14题：数值的整数次方</title>
+</head>
+<body>
+<p>题目描述 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方</p>
+<script>
+/*
+    n为偶数的时候  a^n=a^(n/2)*a^(n/2)
+    n为奇数的时候  a^n=a^((n-1)/2)*a^((n-1)/2)*a
+*/
+function Power(base, exponent)
+{
+    var result=1;
+    if(exponent==0){
+        return 1;
+    }
+    if(exponent==1){
+        return base;
+    }
+    if(exponent>0){
+        result=Power(base,exponent>>1);//右移表示除以2,不会出现小数的情况
+        result*=result;
+        if((exponent&1) == 1){
+            result*=base;
+        }
+        return result;
+    }
+    else if(exponent<0){
+        return 1/Power(base,-exponent);
+    }
+
+}
+</script>
+
+</body>
+</html>
