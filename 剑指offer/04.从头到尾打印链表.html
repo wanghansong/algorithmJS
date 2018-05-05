@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第5题：从头到尾打印链表</title>
+</head>
+<body>
+<p>题目描述 输入一个链表，从尾到头打印链表每个节点的值。</p>
+<script>
+/*链表格式*/
+function ListNode(x){
+    this.val = x;
+    this.next = null;
+}
+/**
+ * 思路：遍历链表，将每个值存到一个数值内
+ */
+function printListFromTailToHead(head)
+{
+    //head是指向链表的第一个单元的指针
+    var arr=[],p=head;
+    while(p!=null){
+        arr.unshift(p.val);//unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
+        p=p.next;
+    }
+        return arr;
+}
+</script>
+
+</body>
+</html>

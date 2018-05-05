@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第9题：旋转数组最小数字</title>
+</head>
+<body>
+<p>题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非递减排序的数组的一个旋转，
+    输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，
+    若数组大小为0，请返回0。</p>
+
+<script>
+/*非递减数组：递增或者里面有相等的几个值
+旋转数组的最小值他左边的是递增数组，右边也是递增数组，但两个数组不组成递增,它属于后面的递增数组。它是两个数组的分界线。
+情况1：数组开头、结尾和中间数值不相等，用二分法找出最小值,当两个指针相邻，则最小值是右边的指针指向的。
+情况2：数组开头、结尾和中间数值相等，没办法用二分法，只能遍历最小值。
+*/
+function minNumberInRotateArray(rotateArray)
+{
+    if(rotateArray.length==0){
+        return 0;
+    }
+    var ptr1=0;//头指针
+    var ptrMid=ptr1;
+    var ptr2=rotateArray.length-1;//尾指针
+    while(rotateArray[ptr1]>=rotateArray[ptr2]){
+        //一般情况，用二分法找最小值
+        if(ptr2-ptr1==1){  //如果两个指针相邻，就找到了最小值
+            ptrMid=ptr2;
+            break;
+        }
+        ptrMid=Math.round((ptr1+ptr2)/2);
+        //特例,数组开头、结尾和中间数值相等，没办法用二分法
+        if(rotateArray[ptr1]==rotateArray[ptr2] && rotateArray[ptr1]==rotateArray[ptrMid]){
+            return minArray(rotateArray); //调用外部遍历最小值函数
+        }
+        //二分法
+        if(rotateArray[ptrMid]>=rotateArray[ptr1]){ //ptrMid位于第一个数组中，则最小值位于后面的数组中
+            ptr1=ptrMid;
+        }else{
+            ptr2=ptrMid;
+        }
+    }
+    return rotateArray[ptrMid];
+}
+
+function minArray(arrObj){
+    var minIndex=0;
+    for(var i=1;i<arrObj.length;i++){
+        if(arrObj[i]<arrObj[minIndex]){
+            minIndex=i;
+        }
+    }
+    return arrObj[minIndex];
+}
+</script>
+
+</body>
+</html>

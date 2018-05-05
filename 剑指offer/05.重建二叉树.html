@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第5题：重建二叉树</title>
+</head>
+<body>
+<p>题目描述 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</p>
+<script>
+/* 这里规定整个树存储的变量
+function TreeNode(x) {
+    this.val = x;  //根节点放在val中
+    this.left = null;
+    this.right = null;
+} */
+function reConstructBinaryTree(pre, vin)
+{  //pre是先序遍历结果，vin是中序遍历的结果
+    if(pre.length==0 || vin.length==0){
+        return null;
+    }
+    //找到子数的根节点、左右子树
+    var rootIndex=vin.indexOf(pre[0]);
+    var left=vin.slice(0,rootIndex);
+    var right=vin.slice(rootIndex+1);
+    return { //按照上面规定的树的结构返回
+        val: pre[0],
+        left: reConstructBinaryTree(pre.slice(1,rootIndex+1),left),  //silce分割得到的数据不包括结束的下标那个数据
+        right: reConstructBinaryTree(pre.slice(rootIndex+1),right)
+    };
+}
+let pre=[1,2,4,7,3,5,6,8];
+let vin=[4,7,2,1,5,3,8,6];
+let result=reConstructBinaryTree(pre,vin);
+console.log(result);
+</script>
+</body>
+</html>
