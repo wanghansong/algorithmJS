@@ -4,7 +4,7 @@
     3.i++ 从前往后找到比X大的一个数填到arr[j]坑中
     4.重复2，3步骤直到i==j，将X基准数填入arr[i]中,返回此时基准数所在的位置index
 */
-function ajustArray(arr,l,r){
+function ajustArray(arr,l,r){//在数组l-r范围内使用快排
     var X=arr[l];
     var i=l,j=r;
     while(i<j){
@@ -34,9 +34,9 @@ function ajustArray(arr,l,r){
 
 function quickSort(arr,l,r){
     if(l<r){
-        var index=ajustArray(arr,l,r);//一次快排
-        quickSort(arr,l,index-1);//左边递归
-        quickSort(arr,index+1,r);//右边递归
+        var index=ajustArray(arr,l,r);//一次快排，index左边比它小，右边比它大
+        quickSort(arr,l,index-1);//index左半边使用快排
+        quickSort(arr,index+1,r);//index右半边使用快排
     }
 
     return arr;
