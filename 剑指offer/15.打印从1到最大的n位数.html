@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第15题：打印从1到最大的n位数</title>
+</head>
+<body>
+<p>输入数字n，按顺序打印出从1到最大的n位十进制数，比如输入3，则打印出1、2、3一直到最大的3位数999</p>
+<script>
+/**
+ * 当n很大时会有大数问题，即超出存储范围溢出
+ */
+/**
+ * 解法1：用数组模拟大数加法
+ */
+function print1ToMaxofNDigits(number) {
+    if(number<0){
+        return ;
+    }
+    let arr=Array.from({length: number});
+    arr=arr.map(i=>0);//把数组每位都初始化为0
+
+    while (!isOver(arr)) {
+        printNumber(arr); //输出的时候去掉数组前面0
+    }
+
+}
+
+/**
+ * 判定是否加到最大的数字了，若没有则继续模拟加法加1
+ */
+function isOver(arr) {
+    let isOverFlow= false;
+    let iTakeOver= 0; //记录进位
+
+    for(let i= arr.length-1;i>=0;i--){
+        let iSum=arr[i]+iTakeOver; //第i位考虑上次进位的结果
+        if(i==arr.length-1){//最低位加1
+            iSum++;
+        }
+        if(iSum>=10){ //有进位
+            if(i == 0){
+                isOverFlow=true;
+            }else{
+                iTakeOver=1;
+                iSum-=10;
+                arr[i]=iSum;
+            }
+        }else{
+            arr[i]=iSum;
+            iTakeOver=0;
+        }
+    }
+    return isOverFlow;
+}
+
+function printNumber(arr) {
+    let isBegin=false;
+
+    for(let i=0;i<arr.length;i++){
+        if(arr[i]!=0){
+            isBegin= true;
+        }
+        if(isBegin){
+            console.log(arr[i])
+        }
+    }
+    console.log('\n')
+}
+
+
+print1ToMaxofNDigits(3)
+
+/**
+ * 解法2：用递归，数组每位的取值都是从0~9，把每位从0-9排列一遍
+ */
+
+function print1ToMaxofNDigits2(number) {
+    if(number<=0){
+        return ;
+    }
+    let arr=Array.from({length: number});
+    arr=arr.map(i=>0);
+
+    for(let i=0;i<10;i++){
+        arr[0]= i;
+        recursion(arr,0);
+    }
+}
+
+function recursion(arr,indexLast){
+    if(indexLast == arr.length-1){//到最低位了
+        printNumber(arr)
+        return ;
+    }
+
+    for(let i=0;i<10;i++){
+        arr[indexLast+1]= i;
+        recursion(arr,index+1); //从高位到地位
+    }
+}
+</script>
+
+</body>
+</html>
