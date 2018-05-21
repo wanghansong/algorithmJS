@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>第15题：删除链表的节点</title>
+</head>
+<body>
+题目：在O(1)时间内删除链表节点
+给定单向链表的头指针和一个节点指针，定义一个函数在O(1)时间内删除该节点
+<script>
+/**
+ * 输入：链表开头节点，要删除的节点i
+ * 思路；假设删的节点是i，后面的一个节点是j。如果用常规的将i前一个节点指针指向j，则需要从链表开头开始遍历找到i前一个节点时间复杂度就是O(n)了。
+ * 时间复杂度是O(1)：把节点j的value复制到节点i，然后i的next指向j的下一个，最后删除节点j，这样不用遍历。
+ */
+function ListNode(x) { //链表结构
+    this.val=x;
+    this.next=null;
+}
+/**
+ * main
+ * head: 链表头
+ * toBeDeleted：要删除的节点
+ * 思路：1.要删除的节点不是尾节点(常规) 2.链表只有一个节点 3.链表有多个节点，删除尾节点
+ */
+function deleteNode(head, toBeDeleted) {
+    if(!head || !toBeDeleted){
+        return ;
+    }
+    //要删除的节点不是尾节点(常规)
+    if(toBeDeleted.next !== null){
+        let j=toBeDeleted.next;
+        toBeDeleted.val=j.val;
+        toBeDeleted.next=j.next;
+        j=null;
+    }
+
+    //链表只有一个节点
+    else if(head === toBeDeleted){
+        toBeDeleted = null;
+        head = null;
+    }
+
+    //链表有多个节点，删除尾节点,这种情况需要从头遍历找到删除的前一个节点
+    else if(head !== toBeDeleted && toBeDeleted.next === null){
+        let pHead=head;
+        while (phead.next !== toBeDeleted) {
+            phead=phead.next;
+        }
+        phead.next=null;
+        toBeDeleted=null;
+    }
+}
+//未测试
+</script>
+
+</body>
+</html>

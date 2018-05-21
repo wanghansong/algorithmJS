@@ -20,7 +20,7 @@ function print1ToMaxofNDigits(number) {
         return ;
     }
     let arr=Array.from({length: number});
-    arr=arr.map(i=>0);//把数组每位都初始化为0
+    arr=arr.fill(0);//把数组每位都初始化为0
 
     while (!isOver(arr)) {
         printNumber(arr); //输出的时候去掉数组前面0
@@ -82,7 +82,7 @@ function print1ToMaxofNDigits2(number) {
         return ;
     }
     let arr=Array.from({length: number});
-    arr=arr.map(i=>0);
+    arr=arr.fill(0);
 
     for(let i=0;i<10;i++){
         arr[0]= i;
