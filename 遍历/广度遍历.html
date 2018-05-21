@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>广度遍历打印一棵树</title>
+</head>
+
+<body>
+    <div id="display">
+
+    </div>
+    <script>
+        /*
+         * 按层打印,广度优先打印,同层从左往右
+         */
+        function TreeNode(x, len) {
+            this.val = x;
+            this.children = new Array(len);
+        }
+        //测试示例
+        var treeNodes = {
+            val: 'A',
+            children: [{
+                    val: 'B',
+                },
+                {
+                    val: 'C',
+                    children: [{
+                            val: 'E'
+                        },
+                        {
+                            val: 'F',
+                            children: [{
+                                    val: 'X'
+                                },
+                                {
+                                    val: 'Y'
+                                }
+                            ]
+                        },
+                        {
+                            val: 'G'
+                        }
+                    ]
+                },
+                {
+                    val: 'D',
+                }
+            ]
+        }
+
+        function printTree(root) {
+            var result = [];
+            var queue = []; //辅助队列
+            if (root == null) {
+                return result;
+            }
+            queue.push(root);
+            var tmp;
+            while (queue.length) {
+                tmp = queue.shift(); //弹出队列第一个节点
+                //console.log(tmp);
+                result.push(tmp.val); //将该节点值存到结果数组中
+                if (tmp.children && tmp.children.length > 0) { //如果该节点存在子树
+                    var len = tmp.children.length;
+                    for (var i = 0; i < len; i++) {
+                        queue.push(tmp.children[i]);
+                    }
+                }
+            }
+            return result;
+
+        }
+        var res = printTree(treeNodes);
+        document.getElementById('display').innerHTML = res;
+    </script>
+
+</body>
+
+</html>
