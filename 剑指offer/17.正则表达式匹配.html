@@ -14,7 +14,7 @@
 <script>
 /**
  * @param s 字符串
- * @param pattern 模式
+ * @param pattern 模式,*模式可匹配也可以不匹配，可向后移动到下一个模式，也可以保持模式不变
  * 思路：if(下一个是*){
  *          if(匹配上了 || .*情况){
  *              (str+1,pattern+2) || (str+1,pattern)|| (str,pattern+2)
