@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>第17题：正则表达式匹配</title>
+</head>
+<body>
+<p>题目描述 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次
+    （包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"
+    均不匹配
+</p>
+<script>
+/**
+ * @param s 字符串
+ * @param pattern 模式
+ * 思路：if(下一个是*){
+ *          if(匹配上了 || .*情况){
+ *              (str+1,pattern+2) || (str+1,pattern)|| (str,pattern+2)
+ *          }else{
+ *              (str,pattern+2)
+ *          }
+ *      }
+ *      //正常情况
+ *      （str+1,pattern+1）
+ */
+function match(s, pattern)
+{
+    if(s==null || pattern==null){
+        return false;
+    }
+    let str=s.split('');
+    let patterns=pattern.split('');
+    return matchCycle(str,0,patterns,0);
+}
+
+function matchCycle(str,indexStr,patterns,indexPatterns) {
+    if(str.length===indexStr && patterns.length===indexPatterns){//匹配完了
+        return true;
+    }
+    if(str.length!=indexStr && patterns.length==indexPatterns){//模式不够
+        return false;
+    }
+
+    if(patterns[indexPatterns+1]==='*'){
+        if(str[indexStr] === patterns[indexPatterns] || (patterns[indexPatterns]==='.' && str[indexStr]!=null)){
+            return matchCycle(str,indexStr+1,patterns,indexPatterns+2) || matchCycle(str,indexStr+1,patterns,indexPatterns) ||
+                    matchCycle(str,indexStr,patterns,indexPatterns+2);
+        }else{
+            return matchCycle(str,indexStr,patterns,indexPatterns+2);
+        }
+    }
+    //正常匹配
+    if(str[indexStr] === patterns[indexPatterns] ||(str[indexStr] != null && patterns[indexPatterns]==='.')){
+        return matchCycle(str,indexStr+1,patterns,indexPatterns+1);
+    }
+    return false;
+
+}
+</script>
+</body>
+</html>
